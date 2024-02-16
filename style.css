@@ -1,0 +1,120 @@
+:root {
+  --primary-color: rgb(0, 85, 85);
+  --secondary-color: rgb(255, 255, 179);
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  background-color: var(--primary-color);
+  text-align: center;
+  font-family: "Poppins", sans-serif;
+  font-weight: 700;
+  font-style: normal;
+}
+
+h1 {
+  margin-top: 4rem;
+  font-family: "Luckiest Guy", cursive;
+  font-weight: 400;
+  font-size: 5rem;
+  color: var(--secondary-color);
+}
+
+.mode-selector {
+  width: 27rem;
+  margin: 2rem auto;
+  display: flex;
+  justify-content: space-between;
+  position: relative;
+}
+
+input[type="radio"] {
+  appearance: none;
+  height: 2rem;
+  width: 12rem;
+  border-radius: 2rem;
+  background-color: #fff;
+  cursor: pointer;
+}
+
+input[type="radio"]:checked {
+  outline: rgb(255, 255, 255) solid 2px;
+  outline-offset: 5px;
+}
+
+input#AI-mode:checked {
+  box-shadow: 0 0 10px 10px rgb(0, 255, 255);
+}
+
+input#friend-mode:checked {
+  box-shadow: 0 0 10px 10px rgb(255, 94, 255);
+}
+
+label {
+  position: absolute;
+  text-align: center;
+  top: 0.2rem;
+  cursor: pointer;
+  user-select: none;
+}
+
+label[for="AI-mode"] {
+  left: 11%;
+}
+
+label[for="friend-mode"] {
+  right: 6%;
+}
+
+#start-game {
+  width: 7rem;
+  height: 3rem;
+  border: solid #fff 2px;
+  border-radius: 5px;
+  background-color: transparent;
+  color: #fff;
+  margin-top: 2rem;
+  cursor: pointer;
+  font-family: "Luckiest Guy", cursive;
+  font-weight: 400;
+  font-size: 2rem;
+  color: var(--secondary-color);
+  transition: 0.1s;
+}
+
+#start-game:hover {
+  transform: scale(1.15);
+}
+
+/* Game field */
+
+.game-field {
+  width: min(70vw, 32rem);
+  height: 1px;
+  display: block;
+  margin: 2rem auto;
+  transition: 1s;
+  border-radius: 1rem;
+  border: solid #fff 2px;
+  overflow: hidden;
+}
+
+.game-field.open {
+  padding: 1rem;
+  height: min(70vw, 32rem);
+}
+
+.game-grid {
+  background-color: red;
+  width: 100%;
+  height: 100%;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: repeat(3, 1fr);
+  border: #fff solid 2px;
+}
