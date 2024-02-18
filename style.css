@@ -1,6 +1,7 @@
 :root {
-  --primary-color: rgb(0, 85, 85);
-  --secondary-color: rgb(255, 255, 179);
+  --primary-color: rgb(25, 4, 62);
+  --secondary-color: rgb(255, 0, 166);
+  --shadow-color: rgb(0, 255, 255);
 }
 
 * {
@@ -38,21 +39,19 @@ input[type="radio"] {
   height: 2rem;
   width: 12rem;
   border-radius: 2rem;
-  background-color: #fff;
+  background-color: transparent;
   cursor: pointer;
-}
-
-input[type="radio"]:checked {
   outline: rgb(255, 255, 255) solid 2px;
-  outline-offset: 5px;
 }
 
 input#AI-mode:checked {
-  box-shadow: 0 0 10px 10px rgb(0, 255, 255);
+  box-shadow: 0 0 6px 6px var(--shadow-color),
+    inset 0 0 6px 6px var(--shadow-color);
 }
 
 input#friend-mode:checked {
-  box-shadow: 0 0 10px 10px rgb(255, 94, 255);
+  box-shadow: 0 0 6px 6px var(--secondary-color),
+    inset 0 0 6px 6px var(--secondary-color);
 }
 
 label {
@@ -65,10 +64,12 @@ label {
 
 label[for="AI-mode"] {
   left: 11%;
+  color: var(--shadow-color);
 }
 
 label[for="friend-mode"] {
   right: 6%;
+  color: var(--secondary-color);
 }
 
 #start-game {
@@ -107,14 +108,87 @@ label[for="friend-mode"] {
 .game-field.open {
   padding: 1rem;
   height: min(70vw, 32rem);
+  box-shadow: 0 0 8px 7px var(--shadow-color);
 }
 
 .game-grid {
-  background-color: red;
   width: 100%;
   height: 100%;
   display: grid;
+  gap: 0.5rem;
   grid-template-columns: repeat(3, 1fr);
   grid-template-rows: repeat(3, 1fr);
-  border: #fff solid 2px;
+}
+
+.cell {
+  border-radius: 0.5rem;
+  border: solid 2px rgb(255, 255, 255, 0.2);
+  transition: 0.2s;
+  background-repeat: no-repeat;
+  background-position: center;
+  user-select: none;
+}
+
+.cell.x {
+  background-image: url(./images/x.svg);
+  filter: drop-shadow(0px 0px 2px rgb(100, 255, 255))
+    drop-shadow(0px 0px 5px rgb(0, 255, 255))
+    drop-shadow(0px 0px 7px rgb(0, 255, 255));
+  animation: flicker-x 5s infinite 2s;
+}
+
+.cell.o {
+  background-size: 80%;
+  background-image: url(./images/o.svg);
+  filter: drop-shadow(0px 0px 2px rgb(255, 80, 166))
+    drop-shadow(0px 0px 5px rgb(255, 0, 166))
+    drop-shadow(0px 0px 7px rgb(255, 0, 166));
+  animation: flicker-o 4s infinite 1s;
+}
+
+/* Animation */
+
+@keyframes flicker-x {
+  0% {
+    filter: drop-shadow(0px 0px 2px rgb(100, 255, 255))
+      drop-shadow(0px 0px 5px rgb(0, 255, 255))
+      drop-shadow(0px 0px 7px rgb(0, 255, 255));
+  }
+  2% {
+    filter: drop-shadow(0px 0px 2px rgb(100, 255, 255))
+      drop-shadow(0px 0px 5px rgb(0, 255, 255))
+      drop-shadow(0px 0px 7px rgb(0, 255, 255));
+  }
+  3% {
+    filter: none;
+  }
+  4% {
+    filter: drop-shadow(0px 0px 2px rgb(100, 255, 255))
+      drop-shadow(0px 0px 5px rgb(0, 255, 255))
+      drop-shadow(0px 0px 7px rgb(0, 255, 255));
+  }
+}
+
+@keyframes flicker-o {
+  0% {
+    filter: drop-shadow(0px 0px 2px rgb(255, 80, 166))
+      drop-shadow(0px 0px 5px rgb(255, 0, 166))
+      drop-shadow(0px 0px 7px rgb(255, 0, 166));
+  }
+  1% {
+    filter: none;
+  }
+  2% {
+    filter: drop-shadow(0px 0px 2px rgb(255, 80, 166))
+      drop-shadow(0px 0px 5px rgb(255, 0, 166))
+      drop-shadow(0px 0px 7px rgb(255, 0, 166));
+  }
+  3% {
+    filter: none;
+  }
+  4% {
+    filter: drop-shadow(0px 0px 2px rgb(255, 80, 166))
+      drop-shadow(0px 0px 5px rgb(255, 0, 166))
+      drop-shadow(0px 0px 7px rgb(255, 0, 166));
+  }
 }

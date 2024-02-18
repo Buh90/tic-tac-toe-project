@@ -1,4 +1,4 @@
-const game = (function () {
+const initGame = (function () {
   //DOM selectors
   const aiModeBtn = document.querySelector("#AI-mode");
   const friendModeBtn = document.querySelector("#friend-mode");
@@ -15,17 +15,36 @@ const game = (function () {
     if (gameGrid.innerHTML === "") {
       for (let i = 1; i < 10; i++) {
         const card = document.createElement("div");
-        card.innerHTML = `<p>Card n. ${i}</p>`;
-        card.style.backgroundColor = `rgb(${25 * i},${25 * i},${25 * i})`;
+        card.setAttribute("data-card", i);
+        card.classList.add("cell");
         gameGrid.appendChild(card);
-        card.addEventListener(
-          "click",
-          () => {
-            console.log(card);
-          },
-          { once: true }
-        );
       }
     }
+
+    playGame();
   }
+  return { gameGrid };
 })();
+
+function playGame() {
+  let checkerArray = [null, null, null, null, null, null, null, null, null];
+  let turnChecker = 1;
+  let cells = Array.from(initGame.gameGrid.childNodes);
+  for (cell of cells) {
+    cell.addEventListener(
+      "click",
+      function () {
+        if (turnChecker % 2 === 1) {
+          this.classList.add("x");
+          checkerArray[this.getAttribute("data-card") - 1] = "x";
+        } else {
+          this.classList.add("o");
+          checkerArray[this.getAttribute("data-card") - 1] = "o";
+        }
+        turnChecker++;
+        console.log(checkerArray);
+      },
+      { once: true }
+    );
+  }
+}
