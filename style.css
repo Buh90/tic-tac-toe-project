@@ -1,5 +1,7 @@
+@import url(./Font/stylesheet.css);
+
 :root {
-  --primary-color: rgb(25, 4, 62);
+  --primary-color: rgb(0, 8, 54);
   --secondary-color: rgb(255, 0, 166);
   --shadow-color: rgb(0, 255, 255);
 }
@@ -14,16 +16,27 @@ body {
   background-color: var(--primary-color);
   text-align: center;
   font-family: "Poppins", sans-serif;
-  font-weight: 700;
   font-style: normal;
 }
 
 h1 {
   margin-top: 4rem;
-  font-family: "Luckiest Guy", cursive;
-  font-weight: 400;
-  font-size: 5rem;
-  color: var(--secondary-color);
+  font-size: min(4rem, 15vw);
+  color: #ffcef3;
+  display: inline-block;
+  padding: 2rem 3rem;
+  border: solid 0.3rem #fff;
+  border-radius: 2rem;
+  max-width: 70%;
+}
+
+h1,
+#start-game {
+  font-family: "neon_lightregular", sans-serif;
+  font-weight: 500;
+  text-shadow: 3px 0 5px var(--secondary-color),
+    -3px 0 5px var(--secondary-color), 0 3px 5px var(--secondary-color),
+    0 -3px 5px var(--secondary-color);
 }
 
 .mode-selector {
@@ -45,13 +58,14 @@ input[type="radio"] {
 }
 
 input#AI-mode:checked {
-  box-shadow: 0 0 6px 6px var(--shadow-color),
-    inset 0 0 6px 6px var(--shadow-color);
+  box-shadow: 0 0 8px 3px var(--shadow-color),
+    inset 0 0 8px 3px var(--shadow-color);
 }
 
-input#friend-mode:checked {
-  box-shadow: 0 0 6px 6px var(--secondary-color),
-    inset 0 0 6px 6px var(--secondary-color);
+input#friend-mode:checked,
+h1 {
+  box-shadow: 0 0 8px 3px var(--secondary-color),
+    inset 0 0 8px 3px var(--secondary-color);
 }
 
 label {
@@ -77,25 +91,28 @@ label[for="friend-mode"] {
   height: 3rem;
   border: solid #fff 2px;
   border-radius: 5px;
-  background-color: transparent;
   color: #fff;
-  margin-top: 2rem;
+  box-shadow: 0 0 8px 3px var(--secondary-color),
+    inset 0 0 8px 3px var(--secondary-color);
+  background-color: transparent;
   cursor: pointer;
-  font-family: "Luckiest Guy", cursive;
-  font-weight: 400;
   font-size: 2rem;
-  color: var(--secondary-color);
   transition: 0.1s;
 }
 
 #start-game:hover {
-  transform: scale(1.15);
+  transform: scale(1.05);
+}
+
+*:disabled {
+  cursor: none;
+  transform: none;
 }
 
 /* Game field */
 
 .game-field {
-  width: min(70vw, 32rem);
+  width: min(70vw, 30rem);
   height: 1px;
   display: block;
   margin: 2rem auto;
@@ -103,12 +120,12 @@ label[for="friend-mode"] {
   border-radius: 1rem;
   border: solid #fff 2px;
   overflow: hidden;
+  box-shadow: 0 0 8px 7px var(--shadow-color);
 }
 
 .game-field.open {
   padding: 1rem;
-  height: min(70vw, 32rem);
-  box-shadow: 0 0 8px 7px var(--shadow-color);
+  height: min(70vw, 30rem);
 }
 
 .game-grid {
@@ -127,6 +144,7 @@ label[for="friend-mode"] {
   background-repeat: no-repeat;
   background-position: center;
   user-select: none;
+  cursor: pointer;
 }
 
 .cell.x {
@@ -144,6 +162,21 @@ label[for="friend-mode"] {
     drop-shadow(0px 0px 5px rgb(255, 0, 166))
     drop-shadow(0px 0px 7px rgb(255, 0, 166));
   animation: flicker-o 4s infinite 1s;
+}
+
+.cell.winner {
+  border: 0.4rem solid #fff;
+  filter: drop-shadow(0px 0px 2px rgb(0, 255, 0))
+    drop-shadow(0px 0px 5px rgb(0, 255, 0))
+    drop-shadow(0px 0px 7px rgb(0, 255, 0));
+}
+
+.cell.winner.x {
+  animation: winner-x 1s infinite;
+}
+
+.cell.winner.o {
+  animation: winner-o 1s infinite;
 }
 
 /* Animation */
@@ -187,6 +220,52 @@ label[for="friend-mode"] {
     filter: none;
   }
   4% {
+    filter: drop-shadow(0px 0px 2px rgb(255, 80, 166))
+      drop-shadow(0px 0px 5px rgb(255, 0, 166))
+      drop-shadow(0px 0px 7px rgb(255, 0, 166));
+  }
+}
+
+@keyframes winner-x {
+  0% {
+    filter: drop-shadow(0px 0px 2px rgb(0, 255, 0))
+      drop-shadow(0px 0px 5px rgb(0, 255, 0))
+      drop-shadow(0px 0px 7px rgb(0, 255, 0));
+  }
+  49% {
+    filter: drop-shadow(0px 0px 2px rgb(0, 255, 0))
+      drop-shadow(0px 0px 5px rgb(0, 255, 0))
+      drop-shadow(0px 0px 7px rgb(0, 255, 0));
+  }
+  50% {
+    filter: drop-shadow(0px 0px 2px rgb(100, 255, 255))
+      drop-shadow(0px 0px 5px rgb(0, 255, 255))
+      drop-shadow(0px 0px 7px rgb(0, 255, 255));
+  }
+  99% {
+    filter: drop-shadow(0px 0px 2px rgb(100, 255, 255))
+      drop-shadow(0px 0px 5px rgb(0, 255, 255))
+      drop-shadow(0px 0px 7px rgb(0, 255, 255));
+  }
+}
+
+@keyframes winner-o {
+  0% {
+    filter: drop-shadow(0px 0px 2px rgb(0, 255, 0))
+      drop-shadow(0px 0px 5px rgb(0, 255, 0))
+      drop-shadow(0px 0px 7px rgb(0, 255, 0));
+  }
+  49% {
+    filter: drop-shadow(0px 0px 2px rgb(0, 255, 0))
+      drop-shadow(0px 0px 5px rgb(0, 255, 0))
+      drop-shadow(0px 0px 7px rgb(0, 255, 0));
+  }
+  50% {
+    filter: drop-shadow(0px 0px 2px rgb(255, 80, 166))
+      drop-shadow(0px 0px 5px rgb(255, 0, 166))
+      drop-shadow(0px 0px 7px rgb(255, 0, 166));
+  }
+  99% {
     filter: drop-shadow(0px 0px 2px rgb(255, 80, 166))
       drop-shadow(0px 0px 5px rgb(255, 0, 166))
       drop-shadow(0px 0px 7px rgb(255, 0, 166));
