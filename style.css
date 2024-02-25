@@ -20,14 +20,14 @@ body {
 }
 
 h1 {
-  margin-top: 4rem;
-  font-size: min(4rem, 15vw);
+  margin-top: 1rem;
+  font-size: clamp(2.5rem, 10vw, 4rem);
   color: #ffcef3;
   display: inline-block;
-  padding: 2rem 3rem;
+  padding: 1rem 2rem;
   border: solid 0.3rem #fff;
   border-radius: 2rem;
-  max-width: 70%;
+  width: min(30rem, 70%);
 }
 
 h1,
@@ -42,56 +42,56 @@ h1,
 }
 
 .mode-selector {
-  width: 27rem;
+  width: min(30rem, 70%);
   margin: 2rem auto;
   display: flex;
   justify-content: space-between;
-  position: relative;
 }
 
 input[type="radio"] {
   appearance: none;
-  height: 2rem;
-  width: 12rem;
-  border-radius: 2rem;
+  height: 3rem;
+  width: 3rem;
+  border-radius: 5px;
   background-color: transparent;
   cursor: pointer;
   outline: rgb(255, 255, 255) solid 2px;
 }
 
+input#AI-mode {
+  background: url(./images/1-player.svg) center/70% no-repeat;
+}
+
+input#friend-mode {
+  background: url(./images/2-player.svg) center/70% no-repeat;
+}
+
+input#friend-mode:checked,
 input#AI-mode:checked {
   box-shadow: 0 0 8px 3px var(--shadow-color),
     inset 0 0 8px 3px var(--shadow-color);
 }
 
-input#friend-mode:checked,
 h1,
 #dialog {
   box-shadow: 0 0 8px 3px var(--secondary-color),
     inset 0 0 8px 3px var(--secondary-color);
 }
 
-label {
-  position: absolute;
-  text-align: center;
-  top: 0.2rem;
-  cursor: pointer;
+h1,
+#start-game,
+#dialog button,
+#dialog p {
   user-select: none;
 }
 
-label[for="AI-mode"] {
-  left: 11%;
-  color: var(--shadow-color);
-}
-
-label[for="friend-mode"] {
-  right: 6%;
-  color: var(--secondary-color);
+#start-game {
+  flex: 1 0 7rem;
+  margin: 0 1rem;
 }
 
 #start-game,
 #dialog button {
-  width: 7rem;
   height: 3rem;
   border: solid #fff 2px;
   border-radius: 5px;
@@ -105,12 +105,17 @@ label[for="friend-mode"] {
 }
 
 #start-game:hover {
-  transform: scale(1.05);
+  transform: scale(1.02);
 }
 
-*:disabled {
-  cursor: none;
+input#AI-mode:disabled,
+input#friend-mode:disabled,
+#start-game:disabled {
+  cursor: auto;
   transform: none;
+  filter: opacity(0.3);
+  box-shadow: none;
+  color: #fff;
 }
 
 /* Game field */
@@ -188,10 +193,11 @@ label[for="friend-mode"] {
 #dialog {
   background-color: transparent;
   padding: 3rem;
+  max-width: 80%;
   backdrop-filter: blur(3px);
   position: absolute;
   left: 0;
-  top: 5rem;
+  top: 12rem;
   margin: 0 auto;
   outline: solid var(--secondary-color) 3px;
   border-radius: 1rem;
@@ -205,14 +211,17 @@ dialog::backdrop {
 }
 
 #dialog p {
-  font-size: 5rem;
+  font-size: min(5rem, 15vw);
   color: #ffcef3;
 }
 
 #dialog button {
   font-size: 1.5rem;
-  width: 10rem;
+  /* width: 10rem; */
   margin-top: 2rem;
+  width: max(50%, 7rem);
+  padding: 1rem;
+  height: auto;
 }
 
 /* Animation */

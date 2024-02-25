@@ -33,7 +33,6 @@ const game = (function () {
   }
 
   function resetGame() {
-    gameMode = "AI";
     friendModeBtn.removeAttribute("disabled");
     aiModeBtn.removeAttribute("disabled");
     startGameBtn.removeAttribute("disabled");
@@ -60,6 +59,9 @@ function initGame() {
           delay(2000).then(() => game.modal.showModal());
           return;
         }
+        if (turnChecker >= 9) {
+          delay(2000).then(() => game.modal.showModal());
+        }
         turnChecker++;
         if (game.gameMode === "AI" && turnChecker < 9) {
           playComputerTurn(checkerArray, cells);
@@ -71,6 +73,7 @@ function initGame() {
           delay(2000).then(() => game.modal.showModal());
           return;
         }
+        console.log(turnChecker);
         turnChecker++;
       }
       this.removeEventListener("click", eventHandler);
@@ -125,7 +128,9 @@ function checkWinner(checkerArray, cells) {
       break;
     }
   }
-
+  if (isWinner === false && checkerArray.every((value) => value !== null)) {
+    winner.textContent = "DRAW!";
+  }
   return isWinner;
 }
 
