@@ -5,10 +5,13 @@ const game = (function () {
   const startGameBtn = document.querySelector("#start-game");
   const gameField = document.querySelector(".game-field");
   const gameGrid = document.querySelector(".game-grid");
+  const modal = document.querySelector("#dialog");
+  const restartGameBtn = document.querySelector(".restart-game");
   let gameMode;
 
   //Functions
   startGameBtn.addEventListener("click", openField);
+  restartGameBtn.addEventListener("click", resetGame);
 
   function openField() {
     friendModeBtn.setAttribute("disabled", true);
@@ -28,7 +31,19 @@ const game = (function () {
     }
     initGame();
   }
-  return { gameGrid, gameMode };
+
+  function resetGame() {
+    gameMode = "AI";
+    friendModeBtn.removeAttribute("disabled");
+    aiModeBtn.removeAttribute("disabled");
+    startGameBtn.removeAttribute("disabled");
+    gameGrid.innerHTML = "";
+    gameGrid.removeAttribute("inert");
+    gameField.classList.remove("open");
+    modal.close();
+  }
+
+  return { gameGrid, gameMode, modal };
 })();
 
 function initGame() {
@@ -42,6 +57,7 @@ function initGame() {
         this.classList.add("x");
         checkerArray[this.getAttribute("data-card") - 1] = "x";
         if (checkWinner(checkerArray, cells)) {
+          delay(2000).then(() => game.modal.showModal());
           return;
         }
         turnChecker++;
@@ -52,6 +68,7 @@ function initGame() {
         this.classList.add("o");
         checkerArray[this.getAttribute("data-card") - 1] = "o";
         if (checkWinner(checkerArray, cells)) {
+          delay(2000).then(() => game.modal.showModal());
           return;
         }
         turnChecker++;
@@ -61,18 +78,22 @@ function initGame() {
   }
 }
 
-function playComputerTurn(checkerArray, cells) {
+async function playComputerTurn(checkerArray, cells) {
   let computerChoice = Math.floor(Math.random() * 9);
   while (checkerArray[computerChoice] !== null) {
     computerChoice = Math.floor(Math.random() * 9);
   }
+  game.gameGrid.setAttribute("inert", true);
+  await delay(1000);
   cells[computerChoice].click();
+  game.gameGrid.removeAttribute("inert");
 
   return checkerArray;
 }
 
 function checkWinner(checkerArray, cells) {
   let isWinner = false;
+  const winner = document.querySelector("#dialog > p");
   const winningCombinations = [
     [0, 1, 2],
     [3, 4, 5],
@@ -94,8 +115,20 @@ function checkWinner(checkerArray, cells) {
       for (let i = 0; i < 3; i++) {
         cells[combination[i]].classList.add("winner");
       }
+      if (cells[combination[0]].classList.contains("x")) {
+        winner.textContent = "Player 1 win!";
+      } else if (game.gameMode === "AI") {
+        winner.textContent = "Computer win!";
+      } else {
+        winner.textContent = "Player 2 win!";
+      }
       break;
     }
   }
+
   return isWinner;
+}
+
+function delay(ms) {
+  return new Promise((playFunction) => setTimeout(playFunction, ms));
 }

@@ -31,7 +31,9 @@ h1 {
 }
 
 h1,
-#start-game {
+#start-game,
+#dialog p,
+#dialog button {
   font-family: "neon_lightregular", sans-serif;
   font-weight: 500;
   text-shadow: 3px 0 5px var(--secondary-color),
@@ -63,7 +65,8 @@ input#AI-mode:checked {
 }
 
 input#friend-mode:checked,
-h1 {
+h1,
+#dialog {
   box-shadow: 0 0 8px 3px var(--secondary-color),
     inset 0 0 8px 3px var(--secondary-color);
 }
@@ -86,7 +89,8 @@ label[for="friend-mode"] {
   color: var(--secondary-color);
 }
 
-#start-game {
+#start-game,
+#dialog button {
   width: 7rem;
   height: 3rem;
   border: solid #fff 2px;
@@ -177,6 +181,38 @@ label[for="friend-mode"] {
 
 .cell.winner.o {
   animation: winner-o 1s infinite;
+}
+
+/* Modal */
+
+#dialog {
+  background-color: transparent;
+  padding: 3rem;
+  backdrop-filter: blur(3px);
+  position: absolute;
+  left: 0;
+  top: 5rem;
+  margin: 0 auto;
+  outline: solid var(--secondary-color) 3px;
+  border-radius: 1rem;
+  border: solid 0.2rem #ffcef3;
+  overflow: hidden;
+}
+
+dialog::backdrop {
+  background-color: #000d;
+  backdrop-filter: blur(5px);
+}
+
+#dialog p {
+  font-size: 5rem;
+  color: #ffcef3;
+}
+
+#dialog button {
+  font-size: 1.5rem;
+  width: 10rem;
+  margin-top: 2rem;
 }
 
 /* Animation */
