@@ -20,7 +20,7 @@ body {
 }
 
 h1 {
-  margin-top: 1rem;
+  margin-top: 3rem;
   font-size: clamp(2.5rem, 10vw, 4rem);
   color: #ffcef3;
   display: inline-block;
@@ -43,7 +43,7 @@ h1,
 
 .mode-selector {
   width: min(30rem, 70%);
-  margin: 2rem auto;
+  margin: 2rem auto 4rem;
   display: flex;
   justify-content: space-between;
 }

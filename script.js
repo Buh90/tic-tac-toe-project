@@ -10,13 +10,19 @@ const game = (function () {
   let gameMode;
 
   //Functions
-  startGameBtn.addEventListener("click", openField);
+  startGameBtn.addEventListener("click", function () {
+    if (this.textContent === "PLAY") {
+      this.textContent = "RESTART";
+      openField();
+    } else {
+      resetGame();
+    }
+  });
   restartGameBtn.addEventListener("click", resetGame);
 
   function openField() {
     friendModeBtn.setAttribute("disabled", true);
     aiModeBtn.setAttribute("disabled", true);
-    startGameBtn.setAttribute("disabled", true);
     aiModeBtn.checked === true
       ? (game.gameMode = "AI")
       : (game.gameMode = "friend");
@@ -35,11 +41,11 @@ const game = (function () {
   function resetGame() {
     friendModeBtn.removeAttribute("disabled");
     aiModeBtn.removeAttribute("disabled");
-    startGameBtn.removeAttribute("disabled");
     gameGrid.innerHTML = "";
     gameGrid.removeAttribute("inert");
     gameField.classList.remove("open");
     modal.close();
+    startGameBtn.textContent = "PLAY";
   }
 
   return { gameGrid, gameMode, modal };
@@ -73,7 +79,6 @@ function initGame() {
           delay(2000).then(() => game.modal.showModal());
           return;
         }
-        console.log(turnChecker);
         turnChecker++;
       }
       this.removeEventListener("click", eventHandler);
