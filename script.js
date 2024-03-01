@@ -7,6 +7,16 @@ const game = (function () {
   const gameGrid = document.querySelector(".game-grid");
   const modal = document.querySelector("#dialog");
   const restartGameBtn = document.querySelector(".restart-game");
+  const winningCombinations = [
+    [0, 1, 2],
+    [3, 4, 5],
+    [6, 7, 8],
+    [0, 3, 6],
+    [1, 4, 7],
+    [2, 5, 8],
+    [0, 4, 8],
+    [2, 4, 6],
+  ];
   let gameMode;
 
   //Functions
@@ -48,7 +58,7 @@ const game = (function () {
     startGameBtn.textContent = "PLAY";
   }
 
-  return { gameGrid, gameMode, modal };
+  return { gameGrid, gameMode, modal, winningCombinations };
 })();
 
 function initGame() {
@@ -62,7 +72,7 @@ function initGame() {
         this.classList.add("x");
         checkerArray[this.getAttribute("data-card") - 1] = "x";
         if (checkWinner(checkerArray, cells)) {
-          delay(2000).then(() => game.modal.showModal());
+          delay(1000).then(() => game.modal.showModal());
           return;
         }
         if (turnChecker >= 9) {
@@ -70,7 +80,7 @@ function initGame() {
         }
         turnChecker++;
         if (game.gameMode === "AI" && turnChecker < 9) {
-          playComputerTurn(checkerArray, cells);
+          playComputerTurn(checkerArray, cells, turnChecker);
         }
       } else {
         this.classList.add("o");
@@ -86,11 +96,8 @@ function initGame() {
   }
 }
 
-async function playComputerTurn(checkerArray, cells) {
-  let computerChoice = Math.floor(Math.random() * 9);
-  while (checkerArray[computerChoice] !== null) {
-    computerChoice = Math.floor(Math.random() * 9);
-  }
+async function playComputerTurn(checkerArray, cells, turnChecker) {
+  let computerChoice = getPCChoice(checkerArray, turnChecker);
   game.gameGrid.setAttribute("inert", true);
   await delay(1000);
   cells[computerChoice].click();
@@ -102,17 +109,8 @@ async function playComputerTurn(checkerArray, cells) {
 function checkWinner(checkerArray, cells) {
   let isWinner = false;
   const winner = document.querySelector("#dialog > p");
-  const winningCombinations = [
-    [0, 1, 2],
-    [3, 4, 5],
-    [6, 7, 8],
-    [0, 3, 6],
-    [1, 4, 7],
-    [2, 5, 8],
-    [0, 4, 8],
-    [2, 4, 6],
-  ];
-  for (combination of winningCombinations) {
+
+  for (combination of game.winningCombinations) {
     if (
       checkerArray[combination[0]] === checkerArray[combination[1]] &&
       checkerArray[combination[1]] === checkerArray[combination[2]] &&
@@ -137,6 +135,49 @@ function checkWinner(checkerArray, cells) {
     winner.textContent = "DRAW!";
   }
   return isWinner;
+}
+
+function getPCChoice(checkerArray, turnChecker) {
+  let choice;
+
+  if (turnChecker === 2) {
+    if (checkerArray[4] === "x") {
+      let possibleValue = [0, 2, 6, 8];
+      choice = possibleValue[Math.floor(Math.random() * 4)];
+    } else {
+      choice = 4;
+    }
+  }
+
+  if (attackPriority("o")) {
+    return choice;
+  } else if (attackPriority("x")) {
+    return choice;
+  } else {
+    while (checkerArray[choice] !== null) {
+      choice = Math.floor(Math.random() * 9);
+    }
+    return choice;
+  }
+
+  function attackPriority(sign) {
+    for (combination of game.winningCombinations) {
+      let counter = 0;
+      for (let i = 0; i < 3; i++) {
+        if (checkerArray[combination[i]] === sign) {
+          ++counter;
+        }
+        if (counter === 2) {
+          for (let j = 0; j < 3; j++) {
+            if (checkerArray[combination[j]] === null) {
+              choice = combination[j];
+              return choice;
+            }
+          }
+        }
+      }
+    }
+  }
 }
 
 function delay(ms) {
